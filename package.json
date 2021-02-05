@@ -1,0 +1,37 @@
+{
+  "name": "orizon_back",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/livprojects/orizon",
+  "author": "Orizon Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "fs": "^0.0.1-security",
+    "helpers": "^0.0.6",
+    "mailchecker": "^3.3.15",
+    "multer": "^1.4.2",
+    "pg": "^8.4.1",
+    "sanitizer": "^0.1.3",
+    "sequelize": "^6.3.5",
+    "xml2js": "^0.4.23"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon app/server.js"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1"
+  }
+}
