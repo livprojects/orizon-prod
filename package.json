@@ -2,7 +2,7 @@
   "name": "orizon_back",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/livprojects/orizon",
+  "repository": "https://github.com/livprojects/orizon-prod",
   "author": "Orizon Team",
   "license": "MIT",
   "dependencies": {
@@ -24,7 +24,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
+    "start": "npm install && node index.js",
     "dev": "nodemon app/server.js"
   },
   "devDependencies": {
