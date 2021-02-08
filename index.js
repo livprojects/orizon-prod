@@ -29,7 +29,7 @@ app.use(session({
 
 app.use((req, res, next) => {
 	// on autorise explicitement le domaine du front
-	res.header("Access-Control-Allow-Origin", "http://o-rizon.herokuapp.com/");
+	res.header("Access-Control-Allow-Origin", "localhost:8080");
 	// on autorise le partage du cookie
 	res.header("Access-Control-Allow-Credentials", true);
 	// on autorise le partage de ressources entre origines
