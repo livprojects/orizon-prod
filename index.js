@@ -16,33 +16,28 @@ app.use(bodyParser.json());
 
 // Session
 app.use(session({
-	secret: "g5g48er7gergGER",
-	resave: true,
-	saveUninitialized: true,
-	cookie: {
-		httpOnly: true, // empêche l'accès au cookie depuis du javascript côté front
-		secure: false, // HTTPS est nécessaire si l'on veut passer l'option à true
-		maxAge: 1000 * 60 * 60 * 24, // durée de vie du cookie en milliseconds, ici ça donne 1 jour
-	}
-})),
+		secret: "g5g48er7gergGER",
+		resave: true,
+		saveUninitialized: true,
+		cookie: {
+			httpOnly: true, // empêche l'accès au cookie depuis du javascript côté front
+			secure: false, // HTTPS est nécessaire si l'on veut passer l'option à true
+			maxAge: 1000 * 60 * 60 * 24, // durée de vie du cookie en milliseconds, ici ça donne 1 jour
+		}
+	})),
 
 
-// app.use((req, res, next) => {
-// 	// on autorise explicitement le domaine du front
-// 	res.header("Access-Control-Allow-Origin", "http://o-rizon.herokuapp.com");
-// 	// on autorise le partage du cookie
-// 	res.header("Access-Control-Allow-Credentials", true);
-// 	// on autorise le partage de ressources entre origines
-// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-// 	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH");
+	app.use((req, res, next) => {
+		// on autorise explicitement le domaine du front
+		res.header("Access-Control-Allow-Origin", "o-rizon.herokuapp.com");
+		// on autorise le partage du cookie
+		res.header("Access-Control-Allow-Credentials", true);
+		// on autorise le partage de ressources entre origines
+		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH");
 
-// 	next();
-// });
-
-app.use(cors({
-    origin: '*',
-}));
-
+		next();
+	});
 
 app.use(express.static('dist'));
 
@@ -60,17 +55,19 @@ app.use(express.static('dist'));
 // }); 
 
 // POST management
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({
+	extended: true
+}));
 
 // Sanitizer 
 const sanitizeData = require("./app/middlewares/sanitizeMiddleware");
-app.use( sanitizeData );
+app.use(sanitizeData);
 
 // router
 const router = require("./app/router");
 app.use(router);
 
 // launch server
-app.listen( PORT,  () => {
+app.listen(PORT, () => {
 	console.log(`Listening on ${PORT}`);
 });
