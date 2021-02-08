@@ -27,17 +27,21 @@ app.use(session({
 })),
 
 
-app.use((req, res, next) => {
-	// on autorise explicitement le domaine du front
-	res.header("Access-Control-Allow-Origin", "*");
-	// on autorise le partage du cookie
-	res.header("Access-Control-Allow-Credentials", true);
-	// on autorise le partage de ressources entre origines
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH");
+// app.use((req, res, next) => {
+// 	// on autorise explicitement le domaine du front
+// 	res.header("Access-Control-Allow-Origin", "http://o-rizon.herokuapp.com");
+// 	// on autorise le partage du cookie
+// 	res.header("Access-Control-Allow-Credentials", true);
+// 	// on autorise le partage de ressources entre origines
+// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// 	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH");
 
-	next();
-});
+// 	next();
+// });
+
+app.use(cors({
+    origin: '*',
+}));
 
 
 app.use(express.static('dist'));
