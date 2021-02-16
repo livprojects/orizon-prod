@@ -60,7 +60,7 @@ app.use(session({
 
 	// });
 
-app.use(express.static('dist'));
+app.use(express.static('./dist'));
 
 // FS : ACCESS TO UPLOAD FOLDER (READ)
 // Allowing only read permission 
