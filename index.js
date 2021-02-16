@@ -27,38 +27,38 @@ app.use(session({
 	}));
 
 
-	// app.use((req, res, next) => {
-	// 	// on autorise explicitement le domaine du front
-	// 	res.header("Access-Control-Allow-Origin", "http://o-rizon.herokuapp.com");
-	// 	// on autorise le partage du cookie
-	// 	res.header("Access-Control-Allow-Credentials", true);
-	// 	// on autorise le partage de ressources entre origines
-	// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	// 	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH");
-
-	// 	next();
-	// });
-
-
 	app.use((req, res, next) => {
-		// Authorize mutiple urls for cors. Cors now down with out cors package
-
-		const allowedOrigins = ['http://o-rizon.herokuapp.com', 'https://o-rizon.herokuapp.com'];
-		const {
-			origin
-		} = req.headers;
-		if (allowedOrigins.includes(origin)) {
-			res.setHeader('Access-Control-Allow-Origin', origin);
-		}
-
-		res.header('Access-Control-Allow-Credentials', true);
+		// on autorise explicitement le domaine du front
+		res.header("Access-Control-Allow-Origin", "https://o-rizon.herokuapp.com");
+		// on autorise le partage du cookie
+		res.header("Access-Control-Allow-Credentials", true);
 		// on autorise le partage de ressources entre origines
-		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH");
 
 		next();
-
 	});
+
+
+	// app.use((req, res, next) => {
+	// 	// Authorize mutiple urls for cors. Cors now down with out cors package
+
+	// 	const allowedOrigins = ['http://o-rizon.herokuapp.com', 'https://o-rizon.herokuapp.com'];
+	// 	const {
+	// 		origin
+	// 	} = req.headers;
+	// 	if (allowedOrigins.includes(origin)) {
+	// 		res.setHeader('Access-Control-Allow-Origin', origin);
+	// 	}
+
+	// 	res.header('Access-Control-Allow-Credentials', true);
+	// 	// on autorise le partage de ressources entre origines
+	// 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+	// 	res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+	// 	next();
+
+	// });
 
 app.use(express.static('dist'));
 
