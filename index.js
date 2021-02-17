@@ -41,9 +41,7 @@ app.use(session({
 
 
 app.use(express.static('./dist'));
-app.get('/*', function (req, res) {
-	res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  });
+
 
 // FS : ACCESS TO UPLOAD FOLDER (READ)
 // Allowing only read permission 
