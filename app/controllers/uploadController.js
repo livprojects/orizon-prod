@@ -26,7 +26,7 @@ const uploadController = {
             }
             // console.log(filename.split('.').pop();)
             console.log(req);
-			res.redirect('https://o-rizon.herokuapp.com/profile/');
+			res.redirect('https://o-rizon.herokuapp.com/profile');
 		});
     },
 };
