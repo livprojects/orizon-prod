@@ -2,6 +2,8 @@
 // Express
 const express = require("express");
 const router = express.Router();
+const path = require('path');
+
 
 // Middleware to avoid try/catch in controllers
 const capture = require("./middlewares/captureMiddleware");
