@@ -42,7 +42,7 @@ router.get("/api/news/:indexNews", capture(newsController.getAllNews));
 router.get("/api/news/:source/:indexNews", capture(newsController.getBySource));
 
 router.use(function(req, res) {
-	res.sendFile(path.join(__dirname, './dist/index.html'));
+	res.sendFile(path.join(__dirname, '/dist/index.html'));
 });
 
 // Export
