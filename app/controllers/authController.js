@@ -53,7 +53,6 @@ const authController = {
 	logOut: (req, res) => {
 		req.session.destroy();
 		res.send({ logged : false, message: "Vous avez été déconnecté.e" });
-		res.redirect("/api/signin");
 	}, 
 
 	signUp: async(req, res) => {
