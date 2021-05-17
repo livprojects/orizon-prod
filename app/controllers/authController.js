@@ -131,7 +131,6 @@ const authController = {
 				} else {
 
 					res.send({ registered: true, message: "Vous êtes bien inscrit.e, vous pouvez à présent vous connecter."});
-					// res.redirect("/api/signin");
 				}
 
 			}

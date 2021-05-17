@@ -2,8 +2,6 @@
 // Express
 const express = require("express");
 const router = express.Router();
-const path = require('path');
-
 
 // Middleware to avoid try/catch in controllers
 const capture = require("./middlewares/captureMiddleware");
@@ -42,7 +40,7 @@ router.get("/api/news/:indexNews", capture(newsController.getAllNews));
 router.get("/api/news/:source/:indexNews", capture(newsController.getBySource));
 
 router.use(function(req, res) {
-	res.sendFile(path.join(__dirname, '../dist/index.html'));
+	res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 // Export
