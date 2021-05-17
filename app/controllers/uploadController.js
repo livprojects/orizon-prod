@@ -21,11 +21,11 @@ const uploadController = {
 		var upload = await multer({ storage : storage, fileFilter: helpers.imageFilter }).single(idString);
 		upload(req,res,function(err) {
 			if(err) {
-                console.log(err)
+                console.log(err);
 				return res.end("Error uploading file.");
             }
             // console.log(filename.split('.').pop();)
-            console.log(req)
+            console.log(req);
 			res.redirect('https://o-rizon.herokuapp.com/profile');
 		});
     },
