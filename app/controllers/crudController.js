@@ -101,40 +101,17 @@ const crudController = {
 							where: { username: req.body.username  }
 						});
 
-						if((checkEmail) && (checkUsername)) {
+						if (checkEmail) {
 
-							req.session.user = {
-								username: user.username,
-								lastname: user.lastname,
-								firstname: user.firstname,
-								email: user.email,
-								id: user.id,
-								idString: idString,
-								quiz: checkEmail.userPLAYEDquiz,
-							};
-
-							res.json({ message:"Ce pseudo et cet email sont déjà utilisés, veuillez en saisir d'autre"});			
+							res.json({ message:"Cet e-mail est déjà utilisé, veuillez en saisir un autre."});			
 						}
 
-						else if(checkUsername) {
+						else if (checkUsername) {
 
-							req.session.user = {
-								username: req.body.username,
-								lastname: req.body.lastname,
-								firstname: req.body.firstname,
-								email: req.body.email,
-								id: req.body.id,
-								idString: idString,
-								quiz: checkUsername.userPLAYEDquiz,
-							};
-
-							res.json({ message:"Ce pseudo est déjà utilisé, veuillez en saisir un autre"});
+							res.json({ message:"Ce pseudo est déjà utilisé, veuillez en saisir un autre."});
 						}
 
-						else if(checkEmail) {
-
-							res.json({message: "Cet email est déjà utilisé, veuillez en saisir un autre"});
-						} else {
+						else {
 
 							const user = await User.findByPk(id, {
 								// Add nested:true if quiz
@@ -160,7 +137,7 @@ const crudController = {
 								quiz: user.userPLAYEDquiz,
 							};
 
-							res.json({ newDatas: user, message: "profil mis à jour"});
+							res.json({ newDatas: user, message: "Le profil a été mis à jour."});
 						}
 					} else {
 
@@ -183,7 +160,7 @@ const crudController = {
 							quiz: user.userPLAYEDquiz,
 						};
 
-						res.json({ newDatas: user, message: "profil mis à jour"});
+						res.json({ newDatas: user, message: "Le profil a été mis à jour."});
 					}
 
 
