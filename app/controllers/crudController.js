@@ -101,13 +101,13 @@ const crudController = {
 
 						if((checkEmail) && (req.body.email != user.email)) {
 							req.session.user = {
-								username: user.username,
-								lastname: user.lastname,
-								firstname: user.firstname,
-								email: user.email,
-								id: user.id,
+								username: req.body.username,
+								lastname: req.body.lastname,
+								firstname: req.body.firstname,
+								email: req.body.email,
+								id: req.body.id,
 								idString: idString,
-								quiz: checkEmail.userPLAYEDquiz,
+								quiz: checkUsername.userPLAYEDquiz,
 							};
 
 							res.json({ message: "Cet email est déjà utilisé, veuillez en saisir un autre."});
@@ -115,9 +115,6 @@ const crudController = {
 											
 						
 						if ((checkUsername) && (req.body.username != user.username)) {
-
-									
-
 							req.session.user = {
 								username: req.body.username,
 								lastname: req.body.lastname,
