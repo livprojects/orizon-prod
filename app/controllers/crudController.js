@@ -91,6 +91,8 @@ const crudController = {
 
 					const idString = await user.id.toString();
 
+					if((req.body.email != user.email) || (req.body.username != user.username)) {
+
 						const checkEmail = await User.findOne({
 							where: { email: req.body.email }
 						});
@@ -99,22 +101,23 @@ const crudController = {
 							where: { username: req.body.username  }
 						});
 
-						if((checkEmail) && (req.body.email != user.email)) {
+						if((checkEmail) && (checkUsername)) {
+
 							req.session.user = {
-								username: req.body.username,
-								lastname: req.body.lastname,
-								firstname: req.body.firstname,
-								email: req.body.email,
-								id: req.body.id,
+								username: user.username,
+								lastname: user.lastname,
+								firstname: user.firstname,
+								email: user.email,
+								id: user.id,
 								idString: idString,
-								quiz: checkUsername.userPLAYEDquiz,
+								quiz: checkEmail.userPLAYEDquiz,
 							};
 
-							res.json({ message: "Cet email est déjà utilisé, veuillez en saisir un autre."});
+							res.json({ message:"Ce pseudo et cet email sont déjà utilisés, veuillez en saisir d'autre"});			
 						}
-											
-						
-						if ((checkUsername) && (req.body.username != user.username)) {
+
+						else if(checkUsername) {
+
 							req.session.user = {
 								username: req.body.username,
 								lastname: req.body.lastname,
@@ -128,7 +131,10 @@ const crudController = {
 							res.json({ message:"Ce pseudo est déjà utilisé, veuillez en saisir un autre"});
 						}
 
-						else {
+						else if(checkEmail) {
+
+							res.json({message: "Cet email est déjà utilisé, veuillez en saisir un autre"});
+						} else {
 
 							const user = await User.findByPk(id, {
 								// Add nested:true if quiz
@@ -154,13 +160,38 @@ const crudController = {
 								quiz: user.userPLAYEDquiz,
 							};
 
-							res.json({ newDatas: user, message: "Le profil a été mis à jour."});
+							res.json({ newDatas: user, message: "profil mis à jour"});
 						}
+					} else {
+
+						user.username = req.body.username,
+						user.lastname = req.body.lastname,
+						user.firstname = req.body.firstname,
+						user.email = req.body.email,
+
+						await user.save();
+
+						const idString = await user.id.toString();
+
+						req.session.user = {
+							username: user.username,
+							lastname: user.lastname,
+							firstname: user.firstname,
+							email: user.email,
+							id: user.id,
+							idString: idString,
+							quiz: user.userPLAYEDquiz,
+						};
+
+						res.json({ newDatas: user, message: "profil mis à jour"});
+					}
+
 
 				} else {
 					const eltUserSaved = await eltToUpdate.save();
 					res.json(eltUserSaved);
 				}
+
 
 			} else {
 				res.status(404).json(`item ${id} is undefined`);
