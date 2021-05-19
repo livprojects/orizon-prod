@@ -15,7 +15,7 @@ const handleQuizController = {
 		// LINK TO RSS
 		let scienceEtAvenirRss = await axios("https://www.sciencesetavenir.fr/espace/rss.xml");
 		let esaRss = await axios("https://www.esa.int/rssfeed/France");
-		let lemondeRss = await axios("https://www.lemonde.fr/espace/rss_full.xml");
+		let lemondeRss = await axios("https://www.sciencesetavenir.fr/espace/rss.xml");
 
 		// FUNCTION TO TRANSFORM XML TO JSON
 		const jsonifyDatas = (source) => xml2js.parseStringPromise(source.data, { explicitArray : false }).then(function (result) {
@@ -33,29 +33,29 @@ const handleQuizController = {
 
 		slicedScienceEtAvenir.map(({ title, description, link, enclosure, pubDate }) => {
 			let img = enclosure.$.url;
-			let source = "Sciences et avenir";
+			let source = "Science et avenir";
 			formatedResult.push({title, description, link, img, pubDate, source});
 		});
 
 		// FILTER ESA DATAS FROM JSON FILE
-		// let esaJSON = await jsonifyDatas(esaRss);
+		let esaJSON = await jsonifyDatas(esaRss);
 
-		// let esaDatas = esaJSON.rss.channel.item;
+		let esaDatas = esaJSON.rss.channel.item;
 
-		// let slicedesa = esaDatas.slice(indexNews, maxResults);
+		let slicedesa = esaDatas.slice(indexNews, maxResults);
 
-		// slicedesa.map(({ title, description, link, pubDate }) => {
+		slicedesa.map(({ title, description, link, pubDate }) => {
 
-		// 	let regex = /(https?:\/\/.*\.(?:png|jpg))/g;
-		// 	let img;
+			let regex = /(https?:\/\/.*\.(?:png|jpg))/g;
+			let img;
 
-		// 	while ((array = regex.exec(description)) !== null) {
-		// 		img = array[0];
-		// 	}
-		// 	description = description.replace(/<\/?[^>]+(>|$)/g, "");
-		// 	let source = "ESA";
-		// 	formatedResult.push({title, description, link, img, pubDate, source});
-		// });
+			while ((array = regex.exec(description)) !== null) {
+				img = array[0];
+			}
+			description = description.replace(/<\/?[^>]+(>|$)/g, "");
+			let source = "ESA";
+			formatedResult.push({title, description, link, img, pubDate, source});
+		});
 
 		// FILTER LE MONDE DATAS FROM JSON FILE
 		let lemondeJSON = await jsonifyDatas(lemondeRss);
@@ -74,123 +74,122 @@ const handleQuizController = {
 		res.json(formatedResult);
 
 
-	}
-	// ,
+	},
 
-	// getBySource: async(req, res) => {
-	// 	const source = req.params.source;
-	// 	const indexNews = req.params.indexNews;
+	getBySource: async(req, res) => {
+		const source = req.params.source;
+		const indexNews = req.params.indexNews;
 
-	// 	let sourceUrl = "";
-	// 	let response = "";
+		let sourceUrl = "";
+		let response = "";
 
-	// 	if(!source) {
-	// 		res.status(404).json({error: "not found"});
-	// 	} else {
+		if(!source) {
+			res.status(404).json({error: "not found"});
+		} else {
 
-	// 		if(source === "sciencesetavenir") {
+			if(source === "sciencesetavenir") {
 
-	// 			sourceUrl = "https://www.sciencesetavenir.fr/espace/rss.xml";
+				sourceUrl = "https://www.sciencesetavenir.fr/espace/rss.xml";
 
-	// 			let results = null;
+				let results = null;
 				
 
-	// 			response = await axios(sourceUrl);
+				response = await axios(sourceUrl);
 
-	// 			xml2js.parseString(response.data, { explicitArray : false }, function (err, result) {
+				xml2js.parseString(response.data, { explicitArray : false }, function (err, result) {
 
-	// 				results = result.rss.channel.item;
-	// 				let formatedResult = [];
+					results = result.rss.channel.item;
+					let formatedResult = [];
 
-	// 				// MAP TO FILTER ELEMENTS REQUIRED FROM THE RECEIVED OBJECT
-	// 				results.map(({ title, description, link, enclosure, pubDate }) => {
-	// 					let img = enclosure.$.url;
-	// 					let source = "Science et avenir";
-	// 					formatedResult.push({title, description, link, img, pubDate, source});
-	// 				});
+					// MAP TO FILTER ELEMENTS REQUIRED FROM THE RECEIVED OBJECT
+					results.map(({ title, description, link, enclosure, pubDate }) => {
+						let img = enclosure.$.url;
+						let source = "Science et avenir";
+						formatedResult.push({title, description, link, img, pubDate, source});
+					});
 
-	// 				let maxResults = parseInt(indexNews)+4;
-	// 				res.json(formatedResult.slice(indexNews, maxResults));
-	// 			});
-	// 		} else if (source === "esa") {
-	// 			sourceUrl = "https://www.esa.int/rssfeed/France";
+					let maxResults = parseInt(indexNews)+4;
+					res.json(formatedResult.slice(indexNews, maxResults));
+				});
+			} else if (source === "esa") {
+				sourceUrl = "https://www.esa.int/rssfeed/France";
 
-	// 			let results = null;
+				let results = null;
 
-	// 			response = await axios(sourceUrl);
+				response = await axios(sourceUrl);
 
-	// 			xml2js.parseString(response.data, { explicitArray : false }, function (err, result) {
+				xml2js.parseString(response.data, { explicitArray : false }, function (err, result) {
 
-	// 				results = result.rss.channel.item;
-	// 				let formatedResult = [];
+					results = result.rss.channel.item;
+					let formatedResult = [];
 
-	// 				// MAP TO FILTER ELEMENTS REQUIRED FROM THE RECEIVED OBJECT
-	// 				results.map(({ title, description, link, pubDate }) => {
+					// MAP TO FILTER ELEMENTS REQUIRED FROM THE RECEIVED OBJECT
+					results.map(({ title, description, link, pubDate }) => {
 
-	// 					let regex = /(https?:\/\/.*\.(?:png|jpg))/g;
-	// 					let img;
+						let regex = /(https?:\/\/.*\.(?:png|jpg))/g;
+						let img;
 
-	// 					while ((array = regex.exec(description)) !== null) {
-	// 						img = array[0];
-	// 					}
-	// 					let source = "ESA";
-	// 					formatedResult.push({title, description, link, img, pubDate, source});
-	// 				});
+						while ((array = regex.exec(description)) !== null) {
+							img = array[0];
+						}
+						let source = "ESA";
+						formatedResult.push({title, description, link, img, pubDate, source});
+					});
 
-	// 				let maxResults = parseInt(indexNews)+4;
+					let maxResults = parseInt(indexNews)+4;
 
-	// 				res.json(formatedResult.slice(indexNews, maxResults));
-	// 			});
-	// 		} else if (source === "lemonde") {
-	// 			sourceUrl = "https://www.lemonde.fr/espace/rss_full.xml";
+					res.json(formatedResult.slice(indexNews, maxResults));
+				});
+			} else if (source === "lemonde") {
+				sourceUrl = "https://www.lemonde.fr/espace/rss_full.xml";
 
-	// 			let results = null;
+				let results = null;
 
-	// 			response = await axios(sourceUrl);
+				response = await axios(sourceUrl);
 
-	// 			xml2js.parseString(response.data, { explicitArray : false }, function (err, result) {
+				xml2js.parseString(response.data, { explicitArray : false }, function (err, result) {
 
-	// 				results = result.rss.channel.item;
-	// 				let formatedResult = [];
+					results = result.rss.channel.item;
+					let formatedResult = [];
 
-	// 				let finalArray = [];
+					let finalArray = [];
 
-	// 				// Rename the key media:content to media to be able to map on it
-	// 				// tuto : https://jetrockets.pro/blog/rmvzzosmz9-rename-the-key-name-in-the-javascript-object
-	// 				const renameKey = (object, key, newKey) => {
+					// Rename the key media:content to media to be able to map on it
+					// tuto : https://jetrockets.pro/blog/rmvzzosmz9-rename-the-key-name-in-the-javascript-object
+					const renameKey = (object, key, newKey) => {
 
-	// 					const clonedObj = clone(object);
+						const clonedObj = clone(object);
                       
-	// 					const targetKey = clonedObj[key];
+						const targetKey = clonedObj[key];
 
-	// 					delete clonedObj[key];
+						delete clonedObj[key];
                       
-	// 					clonedObj[newKey] = targetKey;
+						clonedObj[newKey] = targetKey;
                       
-	// 					return clonedObj; 
-	// 				};
+						return clonedObj; 
+					};
 
-	// 				const clone = (obj) => Object.assign({}, obj);
-	// 				for(const result of results) {
-	// 					formatedResult.push(renameKey(result, "media:content", "media"));
+					const clone = (obj) => Object.assign({}, obj);
+					for(const result of results) {
+						formatedResult.push(renameKey(result, "media:content", "media"));
 
-	// 					formatedResult.map(({ title, description, link, media, pubDate }) => {
-	// 						let img = media.$.url;
-	// 						let source = "Le Monde";
-	// 						finalArray.push({title, description, link, img, pubDate, source});
-	// 					});
-	// 				}
+						formatedResult.map(({ title, description, link, media, pubDate }) => {
+							let img = media.$.url;
+							let source = "Le Monde";
+							finalArray.push({title, description, link, img, pubDate, source});
+						});
+					}
 
-	// 				let maxResults = parseInt(indexNews)+4;
+					let maxResults = parseInt(indexNews)+4;
 
-	// 				res.json(formatedResult.slice(indexNews, maxResults));
-	// 			});
-	// 		}
+					res.json(formatedResult.slice(indexNews, maxResults));
+				});
+			}
 
 
 
-	// 	}
-	// },
+		}
+	},
 
 
 };
