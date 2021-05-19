@@ -71,12 +71,7 @@ const handleQuizController = {
 		});
 
 		// SENDING JSON WITH ALL COMPILED DATAS
-
-		try {
-			res.json(formatedResult);
-		} catch (error) {
-			res.send("ERREUR BACK " + error);
-		}
+		res.json(formatedResult);
 
 
 	},
