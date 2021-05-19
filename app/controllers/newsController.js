@@ -38,24 +38,24 @@ const handleQuizController = {
 		});
 
 		// FILTER ESA DATAS FROM JSON FILE
-		let esaJSON = await jsonifyDatas(esaRss);
+		// let esaJSON = await jsonifyDatas(esaRss);
 
-		let esaDatas = esaJSON.rss.channel.item;
+		// let esaDatas = esaJSON.rss.channel.item;
 
-		let slicedesa = esaDatas.slice(indexNews, maxResults);
+		// let slicedesa = esaDatas.slice(indexNews, maxResults);
 
-		slicedesa.map(({ title, description, link, pubDate }) => {
+		// slicedesa.map(({ title, description, link, pubDate }) => {
 
-			let regex = /(https?:\/\/.*\.(?:png|jpg))/g;
-			let img;
+		// 	let regex = /(https?:\/\/.*\.(?:png|jpg))/g;
+		// 	let img;
 
-			while ((array = regex.exec(description)) !== null) {
-				img = array[0];
-			}
-			description = description.replace(/<\/?[^>]+(>|$)/g, "");
-			let source = "ESA";
-			formatedResult.push({title, description, link, img, pubDate, source});
-		});
+		// 	while ((array = regex.exec(description)) !== null) {
+		// 		img = array[0];
+		// 	}
+		// 	description = description.replace(/<\/?[^>]+(>|$)/g, "");
+		// 	let source = "ESA";
+		// 	formatedResult.push({title, description, link, img, pubDate, source});
+		// });
 
 		// FILTER LE MONDE DATAS FROM JSON FILE
 		let lemondeJSON = await jsonifyDatas(lemondeRss);
