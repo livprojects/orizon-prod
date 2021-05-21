@@ -15,7 +15,7 @@ const handleQuizController = {
 		// LINK TO RSS
 		let scienceEtAvenirRss = await axios("https://www.sciencesetavenir.fr/espace/rss.xml");
 		let esaRss = await axios("https://www.esa.int/rssfeed/France");
-		let lemondeRss = await axios("https://www.sciencesetavenir.fr/espace/rss.xml");
+		let lemondeRss = await axios("https://www.lemonde.fr/espace/rss_full.xml");
 
 		// FUNCTION TO TRANSFORM XML TO JSON
 		const jsonifyDatas = (source) => xml2js.parseStringPromise(source.data, { explicitArray : false }).then(function (result) {
@@ -33,7 +33,7 @@ const handleQuizController = {
 
 		slicedScienceEtAvenir.map(({ title, description, link, enclosure, pubDate }) => {
 			let img = enclosure.$.url;
-			let source = "Science et avenir";
+			let source = "Sciences et avenir";
 			formatedResult.push({title, description, link, img, pubDate, source});
 		});
 
@@ -72,7 +72,7 @@ const handleQuizController = {
 
 		// SENDING JSON WITH ALL COMPILED DATAS
 		// res.json(formatedResult);
-res.send(formatedResult);
+		res.send(formatedResult);
 
 	},
 
@@ -182,7 +182,7 @@ res.send(formatedResult);
 
 					let maxResults = parseInt(indexNews)+4;
 
-					res.json(formatedResult.slice(indexNews, maxResults));
+					res.send(formatedResult.slice(indexNews, maxResults));
 				});
 			}
 
