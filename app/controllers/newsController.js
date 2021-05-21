@@ -71,8 +71,8 @@ const handleQuizController = {
 		});
 
 		// SENDING JSON WITH ALL COMPILED DATAS
-		res.json(formatedResult);
-
+		// res.json(formatedResult);
+res.send({ message : "Ca passe dans le controller "});
 
 	},
 
