@@ -1,7 +1,7 @@
 const axios = require("axios");
 const xml2js = require("xml2js");
 
-const handleQuizController = {
+const newsController = {
 
 	getAllNews: async(req, res) => {
 
@@ -15,7 +15,7 @@ const handleQuizController = {
 		// LINK TO RSS
 		let scienceEtAvenirRss = await axios("https://www.sciencesetavenir.fr/espace/rss.xml");
 		let esaRss = await axios("https://www.esa.int/rssfeed/France");
-		let lemondeRss = await axios("https://www.lemonde.fr/espace/rss_full.xml");
+		// let lemondeRss = await axios("https://www.lemonde.fr/espace/rss_full.xml");
 
 		// FUNCTION TO TRANSFORM XML TO JSON
 		const jsonifyDatas = (source) => xml2js.parseStringPromise(source.data, { explicitArray : false }).then(function (result) {
@@ -58,17 +58,17 @@ const handleQuizController = {
 		});
 
 		// FILTER LE MONDE DATAS FROM JSON FILE
-		let lemondeJSON = await jsonifyDatas(lemondeRss);
+		// let lemondeJSON = await jsonifyDatas(lemondeRss);
 
-		let lemondeDatas = lemondeJSON.rss.channel.item;
+		// let lemondeDatas = lemondeJSON.rss.channel.item;
 
-		let slicedLemonde = lemondeDatas.slice(indexNews, maxResults);
+		// let slicedLemonde = lemondeDatas.slice(indexNews, maxResults);
 
-		slicedLemonde.map(({ title, description, link, enclosure, pubDate }) => {
-			let img = enclosure.$.url;
-			let source = "Le Monde";
-			formatedResult.push({title, description, link, img, pubDate, source});
-		});
+		// slicedLemonde.map(({ title, description, link, enclosure, pubDate }) => {
+		// 	let img = enclosure.$.url;
+		// 	let source = "Le Monde";
+		// 	formatedResult.push({title, description, link, img, pubDate, source});
+		// });
 
 		// SENDING JSON WITH ALL COMPILED DATAS
 		// res.json(formatedResult);
@@ -104,7 +104,7 @@ const handleQuizController = {
 					// MAP TO FILTER ELEMENTS REQUIRED FROM THE RECEIVED OBJECT
 					results.map(({ title, description, link, enclosure, pubDate }) => {
 						let img = enclosure.$.url;
-						let source = "Science et avenir";
+						let source = "Sciences et avenir";
 						formatedResult.push({title, description, link, img, pubDate, source});
 					});
 
@@ -140,51 +140,51 @@ const handleQuizController = {
 
 					res.json(formatedResult.slice(indexNews, maxResults));
 				});
-			} else if (source === "lemonde") {
-				sourceUrl = "https://www.lemonde.fr/espace/rss_full.xml";
+			// } else if (source === "lemonde") {
+			// 	sourceUrl = "https://www.lemonde.fr/espace/rss_full.xml";
 
-				let results = null;
+			// 	let results = null;
 
-				response = await axios(sourceUrl);
+			// 	response = await axios(sourceUrl);
 
-				xml2js.parseString(response.data, { explicitArray : false }, function (err, result) {
+			// 	xml2js.parseString(response.data, { explicitArray : false }, function (err, result) {
 
-					results = result.rss.channel.item;
-					let formatedResult = [];
+			// 		results = result.rss.channel.item;
+			// 		let formatedResult = [];
 
-					let finalArray = [];
+			// 		let finalArray = [];
 
-					// Rename the key media:content to media to be able to map on it
-					// tuto : https://jetrockets.pro/blog/rmvzzosmz9-rename-the-key-name-in-the-javascript-object
-					const renameKey = (object, key, newKey) => {
+			// 		// Rename the key media:content to media to be able to map on it
+			// 		// tuto : https://jetrockets.pro/blog/rmvzzosmz9-rename-the-key-name-in-the-javascript-object
+			// 		const renameKey = (object, key, newKey) => {
 
-						const clonedObj = clone(object);
+			// 			const clonedObj = clone(object);
                       
-						const targetKey = clonedObj[key];
+			// 			const targetKey = clonedObj[key];
 
-						delete clonedObj[key];
+			// 			delete clonedObj[key];
                       
-						clonedObj[newKey] = targetKey;
+			// 			clonedObj[newKey] = targetKey;
                       
-						return clonedObj; 
-					};
+			// 			return clonedObj; 
+			// 		};
 
-					const clone = (obj) => Object.assign({}, obj);
-					for(const result of results) {
-						formatedResult.push(renameKey(result, "media:content", "media"));
+			// 		const clone = (obj) => Object.assign({}, obj);
+			// 		for(const result of results) {
+			// 			formatedResult.push(renameKey(result, "media:content", "media"));
 
-						formatedResult.map(({ title, description, link, media, pubDate }) => {
-							let img = media.$.url;
-							let source = "Le Monde";
-							finalArray.push({title, description, link, img, pubDate, source});
-						});
-					}
+			// 			formatedResult.map(({ title, description, link, media, pubDate }) => {
+			// 				let img = media.$.url;
+			// 				let source = "Le Monde";
+			// 				finalArray.push({title, description, link, img, pubDate, source});
+			// 			});
+			// 		}
 
-					let maxResults = parseInt(indexNews)+4;
+			// 		let maxResults = parseInt(indexNews)+4;
 
-					res.send(formatedResult.slice(indexNews, maxResults));
-				});
-			}
+			// 		res.send(formatedResult.slice(indexNews, maxResults));
+			// 	});
+			 }
 
 
 
@@ -194,4 +194,4 @@ const handleQuizController = {
 
 };
 
-module.exports = handleQuizController;
+module.exports = newsController;
