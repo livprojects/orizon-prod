@@ -5,8 +5,9 @@ Orizon is an informative website for kids and teenagers aged between 10 and 17 y
 
 Spoutnik, our cat mascot, will be your fellow traveler for this space journey. He will guide you through the website, from missions to quizzes, stopping by the news section and your profile.
 
-This is a school project and a team effort. An online version will soon be avalaible when we have fixed a few things (a better responsive design, stronger authentication features, possibility to add your own quiz, unit tests, etc). In the mean time, the project is fully functional. You can either watch the demonstration [here](https://www.youtube.com/watch?v=yRnSeJcDcPs&feature=youtu.be&t=5041) and/or you can access the website by: 
+This is a school project and a team effort. An online version will soon be avalaible when we have fixed a few things (a better responsive design, stronger authentication features, possibility to add your own quiz, unit tests, etc). In the mean time, the project is fully functional. You can either watch the demonstration [here](https://www.youtube.com/watch?v=yRnSeJcDcPs&feature=youtu.be&t=5041) and/or you can access the website here: https://o-rizon.herokuapp.com/#/ 
 
+If you want to run the code locally: 
 
 - Cloning the repository
 - Creating a local database with your favorite database management system (we used PostgreSQL) thanks to the two files
@@ -32,7 +33,7 @@ __Tech stack__
 
 __Team__
 - Liv Audigane (product owner, full stack developer)
-- Pierangela Beaujard (artistic director, front-end developer)
+- Narciso Beaujard (artistic director, front-end developer)
 - Simon Jacquemin (back-end lead developer, full stack developer)
 - Gwendolyne Stelmaszyk (front-end lead developer)
 - Quentin Savigny (front-end developer)
