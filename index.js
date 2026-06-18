@@ -60,6 +60,12 @@ app.use(sanitizeData);
 const router = require("./app/router");
 app.use(router);
 
+// Catch-all: serve React app for any unmatched route (SPA support)
+const path = require("path");
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
 // launch server
 app.listen(PORT, () => {
 	console.log(`Listening on ${PORT}`);
