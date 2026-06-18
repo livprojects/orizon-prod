@@ -1,67 +1,58 @@
-/* eslint-disable no-undef */
 // Environment variables
 const dotenv = require("dotenv");
 dotenv.config();
 const PORT = process.env.PORT || 5000;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
 // Modules
-const bodyParser = require("body-parser");
+const cors = require("cors");
 const session = require("express-session");
 
 // Express
 const express = require("express");
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+
+// CORS
+app.use(cors({
+	origin: FRONTEND_URL,
+	credentials: true,
+}));
 
 // Session
 app.use(session({
-		secret: "g5g48er7gergGER",
-		resave: true,
-		saveUninitialized: true,
-		cookie: {
-			httpOnly: true, // empêche l'accès au cookie depuis du javascript côté front
-			secure: false, // HTTPS est nécessaire si l'on veut passer l'option à true
-			maxAge: 1000 * 60 * 60 * 24, // durée de vie du cookie en milliseconds, ici ça donne 1 jour
-		}
-	}));
-
-
-	app.use((req, res, next) => {
-		// on autorise explicitement le domaine du front
-		res.header("Access-Control-Allow-Origin", "https://o-rizon.herokuapp.com");
-		// on autorise le partage du cookie
-		res.header("Access-Control-Allow-Credentials", true);
-		// on autorise le partage de ressources entre origines
-		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH");
-
-		next();
-	});
-
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		httpOnly: true, // empêche l'accès au cookie depuis du javascript côté front
+		secure: process.env.NODE_ENV === "production", // HTTPS est nécessaire si l'on veut passer l'option à true
+		maxAge: 1000 * 60 * 60 * 24, // durée de vie du cookie en milliseconds, ici ça donne 1 jour
+	}
+}));
 
 app.use(express.static('./dist'));
 
-
 // FS : ACCESS TO UPLOAD FOLDER (READ)
-// Allowing only read permission 
-// const fs = require('fs'); 
+// Allowing only read permission
+// const fs = require('fs');
 
-// // Test the read permission 
-// fs.access('./uploads/', fs.constants.R_OK, (err) => { 
-// console.log('\n> Checking Permission for reading the file'); 
-// if (err) 
-// 	console.error('No Read access'); 
+// // Test the read permission
+// fs.access('./uploads/', fs.constants.R_OK, (err) => {
+// console.log('\n> Checking Permission for reading the file');
+// if (err)
+// 	console.error('No Read access');
 // else
-// 	console.log('File can be read'); 
-// }); 
+// 	console.log('File can be read');
+// });
 
 // POST management
 app.use(express.urlencoded({
 	extended: true
 }));
 
-// Sanitizer 
+// Sanitizer
 const sanitizeData = require("./app/middlewares/sanitizeMiddleware");
 app.use(sanitizeData);
 

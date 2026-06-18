@@ -3,8 +3,8 @@ const capture = (baseFunc) => {
 		try {
 			await baseFunc(req, res, next);
 		} catch (error) {
-			console.log(error);
-			res.status(500).json({error});
+			console.error(error);
+			res.status(500).json({ error: "Internal server error" });
 		}
 	};
 };

@@ -1,34 +1,34 @@
 const multer = require('multer');
 const helpers = require("../middlewares/imageFilterMiddleware");
 
+const storage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		cb(null, 'uploads/');
+	},
+
+	// By default, multer removes file extensions so let's add them back
+	filename: function(req, file, cb) {
+		cb(null, file.fieldname);
+	}
+});
+
+const upload = multer({ storage: storage, fileFilter: helpers.imageFilter });
+
 const uploadController = {
 
-	avatar: async(req, res) => {
+	avatar: (req, res) => {
 
-        const idString = req.params.idString;
+		const idString = req.params.idString;
 
-		var storage =   multer.diskStorage({
-			destination: function(req, file, cb) {
-				cb(null, 'uploads/');
-			},
-
-			// By default, multer removes file extensions so let's add them back
-			filename: function(req, file, cb) {
-				cb(null, file.fieldname);
+		upload.single(idString)(req, res, function(err) {
+			if (err) {
+				console.error(err);
+				return res.status(400).json({ error: "Error uploading file." });
 			}
+			console.debug(req);
+			res.redirect(`${process.env.FRONTEND_URL}/profile`);
 		});
-
-		var upload = await multer({ storage : storage, fileFilter: helpers.imageFilter }).single(idString);
-		upload(req,res,function(err) {
-			if(err) {
-                console.log(err);
-				return res.end("Error uploading file.");
-            }
-            // console.log(filename.split('.').pop();)
-            console.log(req);
-			res.redirect('https://o-rizon.herokuapp.com/profile');
-		});
-    },
+	},
 };
 
 module.exports = uploadController;

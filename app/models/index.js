@@ -82,11 +82,9 @@ Question.belongsToMany(Quiz, {
 // ------------------------------
 
 // add score column to the relation
-Score = sequelize.define("user_plays_quiz", {
+const Score = sequelize.define("user_plays_quiz", {
 	score: Sequelize.INTEGER
-}, 
-{
-// Avoid Sequelize to auto add "s" at the end of table
+}, {
 	freezeTableName: true,
 	tableName: "user_plays_quiz",
 });
@@ -139,4 +137,4 @@ Proposition.belongsToMany(Question, {
 	as: "propositionsCONFIRMSquestions"
 });
 
-module.exports = { Institution, Mission, Planet, User, Quiz, Question, Proposition};
+module.exports = { Institution, Mission, Planet, User, Quiz, Question, Proposition, Score };
