@@ -15,9 +15,9 @@ const newsController = require("./controllers/newsController");
 const authController = require("./controllers/authController");
 const uploadController = require("./controllers/uploadController");
 
-// crud — reads are user-only, writes are admin-only
-router.get("/api/crud/:entity", userMiddleware, capture(crudController.getAll));
-router.get("/api/crud/:entity/:id", userMiddleware, capture(crudController.getOne));
+// crud — reads are public, writes are admin-only
+router.get("/api/crud/:entity", capture(crudController.getAll));
+router.get("/api/crud/:entity/:id", capture(crudController.getOne));
 router.post("/api/crud/:entity", adminMiddleware, capture(crudController.createOne));
 router.patch("/api/crud/:entity/:id", adminMiddleware, capture(crudController.updateOne));
 router.delete("/api/crud/:entity/:id", adminMiddleware, capture(crudController.deleteOne));
