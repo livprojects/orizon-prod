@@ -20,6 +20,93 @@ If you want to run the code locally:
 ```/!\ You will need a Node.js working environment and a database management system /!\```
   
 #### And voilà ! ####
+
+---
+
+## Development workflow
+
+This repository (`orizon-prod`) is the **production deployment target**. It contains the Express backend and a pre-built `dist/` folder served as the frontend. You never edit frontend code here directly.
+
+All frontend development happens in the companion repository [`orizon`](https://github.com/livprojects/orizon), which holds the React source under `client/` and the API source under `api/`.
+
+### Making changes
+
+**Step 1 — Edit the source in `orizon`**
+
+```bash
+cd orizon
+```
+
+- Backend changes go in `api/` — mirror them manually in `orizon-prod/` once ready.
+- Frontend changes go in `client/src/`.
+
+Run the dev server locally to test:
+
+```bash
+# Terminal 1 — API (port 5001)
+cd orizon/api
+npm run dev
+
+# Terminal 2 — Frontend (port 8080)
+cd orizon/client
+npm start
+```
+
+Make sure `orizon/api/.env` has `FRONTEND_URL=http://localhost:8080` and `PORT=5001`.
+
+**Step 2 — Build the frontend**
+
+Once your changes are ready:
+
+```bash
+cd orizon/client
+npm run build
+```
+
+This generates a fresh `dist/` folder inside `orizon/client/`.
+
+**Step 3 — Copy the build to `orizon-prod`**
+
+```bash
+cp -r orizon/client/dist/* orizon-prod/dist/
+```
+
+Or from inside `orizon/client/`:
+
+```bash
+cp -r dist/* ../../orizon-prod/dist/
+```
+
+**Step 4 — Commit and deploy**
+
+```bash
+cd orizon-prod
+git add dist/ app/ index.js  # include any backend changes too
+git commit -m "your message"
+git push heroku main          # deploys to https://o-rizon.herokuapp.com
+git push origin main          # keeps GitHub in sync
+```
+
+### Heroku config vars
+
+Set these once in the Heroku dashboard (Settings → Config Vars) or via CLI:
+
+| Variable | Value |
+|---|---|
+| `DATABASE_URL` | Set automatically by Heroku Postgres |
+| `SESSION_SECRET` | A long random string |
+| `FRONTEND_URL` | `https://o-rizon.herokuapp.com` |
+| `NODE_ENV` | `production` |
+
+### Populating the database
+
+If the Heroku database is empty (e.g. after reprovisioning):
+
+```bash
+heroku pg:psql --app o-rizon -f db/import_table.sql
+heroku pg:psql --app o-rizon -f db/import_data.sql
+```
+
 ---
 
 __Tech stack__
